@@ -1,0 +1,41 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion Integer.parseInt(rootProject.android_compileSdkVersion)
+    buildToolsVersion rootProject.android_buildToolsVersion
+    defaultConfig {
+        applicationId "com.wiseyq.sojni"
+        minSdkVersion Integer.parseInt(rootProject.android_minSdkVersion)
+        targetSdkVersion Integer.parseInt(rootProject.android_targetSdkVersion)
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            moduleName "ccprotect"
+            ldLibs "log", "z", "m"
+            abiFilters "armeabi", "armeabi-v7a", "x86"
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+            assets.srcDirs = ['assets']
+        }
+    }
+
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile "com.android.support:appcompat-v7:${android_support_libs}"
+    compile 'com.jaredrummler:android-processes:1.0.9'
+    compile project(':library')
+}
